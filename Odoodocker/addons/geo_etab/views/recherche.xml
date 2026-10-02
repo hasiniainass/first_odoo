@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="recherche_etablissement" name="Recherche établissements">
+        <t t-call="geo_etab.geo_layout">
+
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+            <div class="geo-page-bg py-4 px-3 px-lg-5">
+                <div class="container-fluid p-0">
+
+                    <div class="geo-page-header text-center mb-4">
+                        <h1 class="geo-page-title m-0">Rechercher un établissement dans le région d'ANALAMANGA</h1>
+                        <p class="geo-page-subtitle text-muted mt-2 mb-0">
+                            Trouvez facilement les établissements selon vos critères et votre localisation
+                        </p>
+
+                        <!-- <a href="/inscription" class="btn btn-outline-primary btn-sm">Créer un compte</a> -->
+                    </div>
+
+                      
+                
+
+                            <div class="geo-search-form card border-0 mb-4 shadow-sm">
+                                <div class="card-body p-4">
+                                 <form action="/etablissements" method="get" id="search_form">
+                                    <div class="row g-3 mb-3">
+                                        <div class="col-md-3">
+                                           <label class="form-label geo-form-label mb-1">Type d'établissement</label>
+                                            <select name="type_id" class="form-select geo-form-select">
+                                              <option value="">Tous les types</option>
+                                                <t t-foreach="types" t-as="type">
+                                                    <option t-att-value="type.id" t-att-selected="type_id and int(type_id) == type.id">
+                                                         <t t-esc="type.name"/>
+                                                    </option>
+                                                </t>
+                                             </select>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label class="form-label geo-form-label mb-1">Catégorie</label>
+                                        <select name="categorie_id" class="form-select geo-form-select">
+                                            <option value="">Toutes les catégories</option>
+                                            <t t-foreach="categories" t-as="categorie">
+                                                <option t-att-value="categorie.id" t-att-selected="categorie_id and int(categorie_id) == categorie.id">
+                                                    <t t-esc="categorie.name"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    
+
+                                    <div class="col-md-3">
+                                        <label class="form-label geo-form-label mb-1">Qualité minimale</label>
+                                        <select name="qualite" class="form-select geo-form-select">
+                                            <option value="">Toutes</option>
+                                            <option value="moyenne" t-att-selected="qualite == 'moyenne'">Moyenne et plus</option>
+                                            <option value="bonne" t-att-selected="qualite == 'bonne'">Bonne et plus</option>
+                                            <option value="tres_bonne" t-att-selected="qualite == 'tres_bonne'">Très bonne et plus</option>
+                                            <option value="excellente" t-att-selected="qualite == 'excellente'">Excellente</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label class="form-label geo-form-label mb-1">Taux de réussite minimum (%)</label>
+                                        <input type="number" name="taux_reussite_min" class="form-control geo-form-select"
+                                               placeholder="Ex: 70" min="0" max="100" t-att-value="taux_reussite_min"/>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3 align-items-end">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Localisation</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-map-marker"/></span>
+                                                <input
+                                                    type="text"
+                                                    id="geo-localisation-input"
+                                                    class="form-control"
+                                                    placeholder="Ma position actuelle"
+                                                    readonly="readonly"
+                                                    style="cursor: pointer;"
+                                                />
+                                            </div>
+                                        <input type="hidden" name="user_lat" id="geo-user-lat" t-att-value="user_lat"/>
+                                        <input type="hidden" name="user_lng" id="geo-user-lng" t-att-value="user_lng"/>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label class="form-label geo-form-label mb-1">District</label>
+                                        <select name="district" class="form-select geo-form-select">
+                                            <option value="">Tous les districts</option>
+                                            <t t-foreach="districts" t-as="district_option">
+                                                <t t-set="district_value" t-value="district_option[0]"/>
+                                                <t t-set="district_label" t-value="district_option[1]"/>
+                                                <option t-att-value="district_value"
+                                                        t-att-selected="district == district_value">
+                                                    <t t-esc="district_label"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    
+                                    <!-- <div class="col-md-3">
+                                        <label class="form-label">Commune</label>
+                                        <input type="text" name="commune" class="form-control" placeholder="Commune" t-att-value="commune"/>
+                                    </div> -->
+
+                                    <div class="col-md-3">
+                                        <label class="form-label">Rayon de recherche</label>
+                                            <select name="rayon_km" id="geo-rayon-select" class="form-select">
+                                                <option value="">Illimité</option>
+                                                <option value="5" t-att-selected="rayon_km == '5'">5 km</option>
+                                                <option value="10" t-att-selected="rayon_km == '10'">10 km</option>
+                                                <option value="20" t-att-selected="rayon_km == '20'">20 km</option>
+                                                <option value="50" t-att-selected="rayon_km == '50'">50 km</option>
+                                            </select>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <button type="submit" class="btn geo-btn-search w-100 py-2 fw-semibold">
+                                            <i class="fa fa-search me-2"/>Rechercher
+                                        </button>
+                                    </div>
+                                 </div>
+                                 </form>
+                                </div>
+                            </div>
+
+                    <div class="row g-4">
+
+                        <div class="col-lg-7">
+                            <div class="card border-0 h-100 shadow-sm geo-results-card">
+                                <div class="card-body p-0">
+
+                                    <div class="geo-results-header d-flex justify-content-between align-items-center px-4 py-3 border-bottom">
+                                        <h2 class="h5 fw-semibold m-0">
+                                            Résultats (<t t-esc="len(etablissements_avec_distance)"/> établissements trouvés)
+                                        </h2>
+                                        
+                                    </div>
+
+                                    <div class="geo-results-list p-3">
+
+                                        <t t-if="etablissements_avec_distance" t-foreach="etablissements_avec_distance" t-as="item">
+                                            <t t-set="etablissement" t-value="item['etab']"/>
+                                            <t t-set="distance" t-value="item['distance']"/>
+                                            <div class="geo-result-item card border-0 mb-3"
+                                                 t-att-data-lat="etablissement.latitude_etab"
+                                                 t-att-data-lng="etablissement.longitude_etab">
+                                                <div class="card-body p-3">
+                                                    <div class="d-flex">
+                                                        <div class="geo-result-image flex-shrink-0 me-3">
+                                                            <img
+                                                                t-if="etablissement.image"
+                                                                t-attf-src="/web/image/geo.etablissement/#{etablissement.id}/image"
+                                                                class="img-fluid" alt=""
+                                                            />
+                                                            <div
+                                                                t-if="not etablissement.image"
+                                                                class="geo-no-image d-flex align-items-center justify-content-center h-100 bg-light"
+                                                            >
+                                                                <i class="fa fa-university text-muted"/>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex-grow-1 min-w-0">
+                                                            <div class="d-flex justify-content-between align-items-start mb-2 flex-wrap gap-2">
+                                                                <h6 class="geo-result-name fw-semibold m-0">
+                                                                    <span class="geo-result-icon me-2">
+                                                                        <i class="fa fa-graduation-cap"></i>
+                                                                    </span>
+                                                                    <t t-esc="etablissement.nom_etab"/>
+                                                                </h6>
+                                                                <p t-if="distance is not None" class="small text-muted mb-1">
+                                                                    <i class="fa fa-map-marker"/> 
+                                                                    <t t-esc="'%.1f' % distance"/> km
+                                                                </p>
+                                                                <div class="text-end">
+                                                                    <div class="geo-result-distance fw-semibold text-muted"></div>
+                                                                    <div class="geo-result-distance-label small text-muted">Distance</div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="geo-result-adresse text-muted small mb-1">
+                                                                <i class="fa fa-map-marker me-1"/>
+                                                                <t t-if="etablissement.commune">
+                                                                    <t t-esc="etablissement.commune"/>
+                                                                    <t t-if="etablissement.district"> - <t t-esc="etablissement.district"/></t>
+                                                                </t>
+                                                                <t t-if="not etablissement.commune and etablissement.adresse">
+                                                                    <t t-esc="etablissement.adresse"/>
+                                                                </t>
+                                                            </div>
+
+                                                            <div class="geo-result-type small mb-1">
+                                                                <t t-if="etablissement.type_id">
+                                                                    <t t-esc="etablissement.type_id.name"/>
+                                                                </t>
+                                                                <t t-if="etablissement.type_id and etablissement.categorie_id"> • </t>
+                                                                <t t-if="etablissement.categorie_id">
+                                                                    <t t-esc="etablissement.categorie_id.name"/>
+                                                                </t>
+                                                            </div>
+
+                                                            <div t-if="etablissement.qualite" class="geo-result-qualite small mb-2">
+                                                                <i class="fa fa-star geo-qualite-star me-1"></i>
+                                                                <span class="geo-qualite-text">
+                                                                    <t t-esc="dict(etablissement._fields['qualite'].selection).get(etablissement.qualite)"/>
+                                                                </span>
+                                                            </div>
+
+                                                            <div class="d-flex justify-content-end align-items-end flex-wrap gap-3 mt-2">
+                                                                <div class="text-center">
+                                                                    <div t-if="etablissement.taux_reussite" class="geo-taux-reussite">
+                                                                        <t t-esc="etablissement.taux_reussite"/>%
+                                                                    </div>
+                                                                    <div class="geo-taux-label small text-muted">Taux de réussite</div>
+                                                                </div>
+                                                                <a
+                                                                    t-attf-href="/etablissement/#{etablissement.id}"
+                                                                    class="btn btn-sm geo-btn-detail"
+                                                                >
+                                                                    Voir détails
+                                                                </a>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+
+                                        <t t-if="not etablissements_avec_distance">
+                                            <div class="text-center py-5 px-4">
+                                                <i class="fa fa-search text-muted fa-3x mb-3"></i>
+                                                <h6 class="text-muted">Aucun établissement ne correspond à votre recherche.</h6>
+                                            </div>
+                                        </t>
+
+                                    </div>
+
+                                    <t t-if="etablissements">
+                                        <nav class="geo-pagination px-4 py-3 border-top d-flex justify-content-center">
+                                            <ul class="pagination pagination-sm m-0">
+                                                <li class="page-item disabled">
+                                                    <a class="page-link" href="#" tabindex="-1">
+                                                        <i class="fa fa-angle-left me-1"/> Précédent
+                                                    </a>
+                                                </li>
+                                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                                <li class="page-item"><span class="page-link text-muted border-0">…</span></li>
+                                                <li class="page-item"><a class="page-link" href="#">6</a></li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="#">
+                                                        Suivant <i class="fa fa-angle-right ms-1"/>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </t>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-5">
+                            <div class="card border-0 h-100 shadow-sm geo-map-card">
+                                <div class="card-body p-0 position-relative">
+
+                                    <div class="geo-map-legend position-absolute top-0 end-0 m-3 bg-white rounded shadow-sm p-2 z-index-10">
+                                        <div class="form-check form-check-sm mb-1">
+                                            <input class="form-check-input" type="checkbox" id="legendEtab" checked=""/>
+                                            <label class="form-check-label small" for="legendEtab">
+                                                <span class="geo-legend-dot geo-dot-blue me-1"></span>
+                                                Établissements
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-sm m-0">
+                                            <input class="form-check-input" type="checkbox" id="legendPos" checked=""/>
+                                            <label class="form-check-label small" for="legendPos">
+                                                <span class="geo-legend-dot geo-dot-red me-1"></span>
+                                                Ma position
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div id="carte-etablissements" style="height: 500px; width: 100%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <script src="/geo_etab/static/src/js/carte.js"></script>
+            <script type="text/javascript">
+                //<![CDATA[
+                document.addEventListener('DOMContentLoaded', function () {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(showPosition, showError);
+                    } else {
+                        console.log("La géolocalisation n'est pas supportée par ce navigateur.");
+                    }
+
+                    function showPosition(position) {
+                        const userLat = position.coords.latitude;
+                        const userLng = position.coords.longitude;
+                        const resultsList = document.querySelector('.geo-results-list');
+                        const resultItems = Array.from(resultsList.querySelectorAll('.geo-result-item'));
+
+                        resultItems.forEach(item => {
+                            const etabLat = item.dataset.lat;
+                            const etabLng = item.dataset.lng;
+
+                            if (etabLat && etabLng) {
+                                const distance = calculateDistance(userLat, userLng, etabLat, etabLng);
+                                item.dataset.distance = distance; // Store for sorting
+                                const distanceElement = item.querySelector('.geo-result-distance');
+                                if (distanceElement) {
+                                    distanceElement.textContent = distance.toFixed(1) + ' km';
+                                }
+                            }
+                        });
+
+
+                    }
+
+                    function showError(error) {
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                console.log("L'utilisateur a refusé la demande de géolocalisation.");
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                console.log("Les informations de localisation ne sont pas disponibles.");
+                                break;
+                            case error.TIMEOUT:
+                                console.log("La demande de géolocalisation a expiré.");
+                                break;
+                            case error.UNKNOWN_ERROR:
+                                console.log("Une erreur inconnue s'est produite.");
+                                break;
+                        }
+                    }
+
+                    function calculateDistance(lat1, lon1, lat2, lon2) {
+                        const R = 6371; // Rayon de la Terre en km
+                        const dLat = deg2rad(lat2 - lat1);
+                        const dLon = deg2rad(lon2 - lon1);
+                        const a =
+                            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                            Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+                            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                        const d = R * c; // Distance en km
+                        return d;
+                    }
+
+                    function deg2rad(deg) {
+                        return deg * (Math.PI / 180);
+                    }
+                });
+                //]]>
+            </script>
+        </t>
+    </template>
+</odoo>

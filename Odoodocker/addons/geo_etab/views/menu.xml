@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- APPLICATION RACINE -->
+    <menuitem
+        id="menu_geo_root"
+        name="Geo Etab"
+        sequence="10"
+        web_icon="geo_etab,static/description/icon.png"
+    />
+
+    <!-- SECTION : TABLEAU DE BORD -->
+    <menuitem 
+            id="menu_geo_section_dashboard" 
+            name="Tableau de bord" 
+            parent="menu_geo_root" 
+            sequence="1"
+    />
+
+    <menuitem 
+            id="menu_geo_dashboard" 
+            name="Accueil" 
+            parent="menu_geo_section_dashboard" 
+            action="action_geo_dashboard_server" 
+            sequence="1"
+    />
+    <menuitem 
+            id="menu_geo_dashboard_stats" 
+            name="Statistiques" 
+            parent="menu_geo_section_dashboard" 
+            action="action_geo_etablissement_graph" 
+            sequence="2"
+    />
+
+    <!-- SECTION : DONNEES DE REFERENCE -->
+    <menuitem 
+            id="menu_geo_section_reference" 
+            name="Données de référence" 
+            parent="menu_geo_root" 
+            sequence="2"
+    />
+    <menuitem 
+            id="menu_geo_etablissement" 
+            name="Établissements" 
+            parent="menu_geo_section_reference" 
+            action="action_geo_etablissement" 
+            sequence="1"
+    />
+    <menuitem 
+            id="menu_geo_type" 
+            name="Types d'établissement" 
+            parent="menu_geo_section_reference" 
+            action="action_geo_type_etablissement" 
+            sequence="2"
+    />
+    <menuitem 
+            id="menu_geo_categorie" 
+            name="Catégories" 
+            parent="menu_geo_section_reference" 
+            action="action_geo_categorie" 
+            sequence="3"
+    />
+    <menuitem 
+            id="menu_geo_utilisateur" 
+            name="Utilisateurs" 
+            parent="menu_geo_section_reference" 
+            action="action_geo_utilisateur" 
+            sequence="4"
+    />
+
+    <!-- SECTION : RECHERCHE ET RESULTATS -->
+    <menuitem 
+            id="menu_geo_section_recherche" 
+            name="Recherche &amp; Résultats" 
+            parent="menu_geo_root" 
+            sequence="3"
+    />
+
+    <menuitem 
+            id="menu_geo_recherche" 
+            name="Recherches" 
+            parent="menu_geo_section_recherche" 
+            action="action_geo_recherche" 
+            sequence="1"
+    />
+
+</odoo>

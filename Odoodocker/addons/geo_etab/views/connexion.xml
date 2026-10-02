@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="template_connexion" name="Connexion">
+        <t t-call="geo_etab.geo_layout">
+            <div class="container py-5 geo-page-bg">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-lg-5 col-xl-4">
+                        <div class="text-center mb-4">
+                            <img src="/geo_etab/static/description/Logo-MEN.jpg" alt="Logo" style="height: 80px;"/>
+                            <h4 class="mt-2">Ministère de l'Education National</h4>
+                        </div>
+
+                        <div class="card geo-inscription-card">
+                            <div class="card-body">
+
+                                <h4 class="text-center mb-1">Se connecter</h4>
+                                <div class="text-center mb-4" style="border-bottom: 3px solid #c5a64a; width: 50px; margin-left: auto; margin-right: auto;"></div>
+                                <t t-if="error">
+                                    <div class="alert alert-danger">
+                                        <t t-esc="error"/>
+                                    </div>
+                                </t>
+
+                                <form action="/connexion" method="post">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="redirect" t-att-value="request.params.get('redirect', '/accueil')"/>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">E-mail</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                            <input type="email" name="email" class="form-control" required="required" t-att-value="values.get('email', '')" placeholder="e-mail" autocomplete="username"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Mot de passe</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                                            <input type="password" name="password" class="form-control" required="required" placeholder="••••••••" autocomplete="current-password"/>
+                                            <span class="input-group-text"><i class="fa fa-eye"></i></span>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-success w-100 d-flex justify-content-center align-items-center">
+                                        <i class="fa fa-arrow-right me-2"></i> Se connecter
+                                    </button>
+                                </form>
+
+                                <p class="text-center mt-3">
+                                    Pas encore de compte ? <a href="/inscription">S'inscrire</a>
+                   
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

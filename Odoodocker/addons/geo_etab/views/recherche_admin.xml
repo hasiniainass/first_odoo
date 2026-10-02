@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <!-- liste -->
+    <record id="view_geo_recherche_tree" model="ir.ui.view">
+        <field name="name">geo.recherche.tree</field>
+        <field name="model">geo.recherche</field>
+        <field name="arch" type="xml">
+
+            <list string="Recherches">
+
+                <field name="utilisateur_id"/>
+                <field name="type_id"/>
+                <field name="categorie_id"/>
+                <field name="commune"/>
+                <field name="nombre_resultats"/>
+                <field name="date_recherche"/>
+
+            </list>
+
+        </field>
+    </record>
+
+
+    <!-- VUE FORMULAIRE -->
+
+    <record id="view_geo_recherche_form" model="ir.ui.view">
+        <field name="name">geo.recherche.form</field>
+        <field name="model">geo.recherche</field>
+        <field name="arch" type="xml">
+
+            <form string="Recherche">
+
+                <sheet>
+                    <group>
+
+                        <group string="Utilisateur">
+                            <field name="utilisateur_id"/>
+                            <field name="date_recherche"/>
+                        </group>
+
+                        <group string="Critères">
+
+                            <field name="type_id"/>
+                            <field name="categorie_id"/>
+                            <field name="region"/>
+                            <field name="district"/>
+                            <field name="commune"/>
+                            <field name="distance_max"/>
+                            <field name="taux_reussite_min"/>
+
+                        </group>
+                    </group>
+
+                    <group string="Résultat">
+                        <field name="nombre_resultats"/>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- recherche (filtre backend) -->
+
+    <record id="view_geo_recherche_search" model="ir.ui.view">
+
+        <field name="name">geo.recherche.search</field>
+        <field name="model">geo.recherche</field>
+        <field name="arch" type="xml">
+
+            <search string="Rechercher">
+                <field name="utilisateur_id"/>
+                <field name="type_id"/>
+                <field name="categorie_id"/>
+                <field name="commune"/>
+
+                <!-- Regroupement par Utilisateur, Type, ou Date — utile pour 
+                analyser les tendances de recherche plus tard -->
+                <group expand="0" string="Grouper par">
+                    <filter string="Utilisateur" name="group_utilisateur" context="{'group_by': 'utilisateur_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'type_id'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'date_recherche:day'}"/>
+                </group>
+            </search>
+
+        </field>
+    </record>
+
+
+    <!-- action -->
+
+    <record id="action_geo_recherche" model="ir.actions.act_window">
+
+        <field name="name">Recherches</field>
+        <field name="res_model">geo.recherche</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_geo_recherche_search"/>
+
+    </record>
+
+</odoo>

@@ -1,0 +1,43 @@
+services:
+  db:
+    image: postgres:17
+    container_name: postgres17
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: dahasina
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  odoo:
+    image: odoo:18
+    container_name: odoo18
+    restart: unless-stopped
+
+    depends_on:
+      - db
+
+    ports:
+      - "8069:8069"
+
+    environment:
+      HOST: db
+      USER: odoo
+      PASSWORD: dahasina
+
+    volumes:
+      - ./config/odoo.conf:/etc/odoo/odoo.conf
+      - ./addons:/mnt/extra-addons
+      - odoo_data:/var/lib/odoo
+
+    command: odoo -c /etc/odoo/odoo.conf
+
+volumes:
+  postgres_data:
+  odoo_data:

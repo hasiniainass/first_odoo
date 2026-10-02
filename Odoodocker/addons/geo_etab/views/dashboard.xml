@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_geo_dashboard_form" model="ir.ui.view">
+        <field name="name">geo.dashboard.form</field>
+        <field name="model">geo.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Tableau de bord">
+
+                <div class="oe_title">
+                    <h1 class="geo-dashboard-title">Dashboard MEN — Geo Etab</h1>
+                </div>
+
+                <!-- BLOC 1 : CARTES STATISTIQUES -->
+                <div class="row mt-3 g-3 flex-nowrap geo-stats-row">
+
+                    <div class="col">
+                        <div class="geo-stat-card-v2">
+                            <div class="geo-stat-icon-v2 icon-etablissements"><i class="fa fa-building" title="Établissements"/></div>
+                            <div class="geo-stat-label-v2">Établissements</div>
+                            <div class="geo-stat-value-v2"><field name="nombre_etablissements" nolabel="1"/></div>
+                            <button name="%(action_geo_etablissement)d" type="action" class="btn btn-link geo-stat-link p-0">Voir tous</button>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="geo-stat-card-v2">
+                            <div class="geo-stat-icon-v2 icon-types"><i class="fa fa-graduation-cap" title="Types d'établissement"/></div>
+                            <div class="geo-stat-label-v2">Types</div>
+                            <div class="geo-stat-value-v2"><field name="nombre_types" nolabel="1"/></div>
+                            <button name="%(action_geo_type_etablissement)d" type="action" class="btn btn-link geo-stat-link p-0">Voir tous</button>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="geo-stat-card-v2">
+                            <div class="geo-stat-icon-v2 icon-categories"><i class="fa fa-tags" title="Catégories"/></div>
+                            <div class="geo-stat-label-v2">Catégories</div>
+                            <div class="geo-stat-value-v2"><field name="nombre_categories" nolabel="1"/></div>
+                            <button name="%(action_geo_categorie)d" type="action" class="btn btn-link geo-stat-link p-0">Voir tous</button>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="geo-stat-card-v2">
+                            <div class="geo-stat-icon-v2 icon-utilisateurs"><i class="fa fa-users" title="Utilisateurs"/></div>
+                            <div class="geo-stat-label-v2">Utilisateurs</div>
+                            <div class="geo-stat-value-v2"><field name="nombre_utilisateurs" nolabel="1"/></div>
+                            <button name="%(action_geo_utilisateur)d" type="action" class="btn btn-link geo-stat-link p-0">Voir tous</button>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="geo-stat-card-v2">
+                            <div class="geo-stat-icon-v2 icon-recherches"><i class="fa fa-search" title="Recherches"/></div>
+                            <div class="geo-stat-label-v2">Recherches</div>
+                            <div class="geo-stat-value-v2"><field name="nombre_recherches" nolabel="1"/></div>
+                            <button name="%(action_geo_recherche)d" type="action" class="btn btn-link geo-stat-link p-0">Voir tous</button>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="geo-stat-card-v2">
+                            <div class="geo-stat-icon-v2 icon-resultats"><i class="fa fa-bar-chart" title="Résultats"/></div>
+                            <div class="geo-stat-label-v2">Résultats</div>
+                            <div class="geo-stat-value-v2"><field name="nombre_resultats_total" nolabel="1"/></div>
+                            <button name="%(action_geo_recherche)d" type="action" class="btn btn-link geo-stat-link p-0">Voir tous</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- BLOC 2 + 3 : ETABLISSEMENTS RECENTS + REPARTITION -->
+                <div class="row mt-4 g-3">
+
+                  <div class="col-lg-8">
+
+                    <div class="geo-panel mb-3">
+                        <div class="geo-panel-header">
+                            <h5 class="m-0">Établissements récents</h5>
+                            <button name="action_new_etablissement" type="object" class="btn btn-sm geo-quick-access-btn btn-primary">
+                                <i class="fa fa-plus" title="Ajouter"/> Nouveau
+                            </button>
+                        </div>
+
+                        <field name="etablissement_recent_ids" nolabel="1">
+                            <list create="false" delete="false" edit="false">
+                                <field name="image" widget="image" options="{'size': [40, 40]}"/>
+                                <field name="nom_etab" string="Nom"/>
+                                <field name="type_id" string="Type"/>
+                                <field name="categorie_id" string="Catégorie"/>
+                                <field name="commune" string="Localisation"/>
+                                <field name="taux_reussite" string="Taux réussite (%)"/>
+                                <field name="qualite" string="Qualité"/>
+                            </list>
+                        </field>
+
+                        <div class="geo-panel-footer">
+                            <button name="%(action_geo_etablissement)d" type="action" class="btn btn-link p-0">
+                                Voir tous les établissements <i class="fa fa-arrow-right ms-1" title="Voir tous"/>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="geo-panel">
+                        <div class="geo-panel-header">
+                            <h5 class="m-0">Recherche rapide</h5>
+                        </div>
+                        <div class="geo-panel-body">
+                            <group>
+                                <field name="quick_nom" placeholder="Nom de l'établissement..."/>
+                                <field name="quick_type_id" placeholder="Tous les types"/>
+                                <field name="quick_categorie_id" placeholder="Toutes catégories"/>
+                            </group>
+                            <button name="action_quick_search" type="object" class="btn geo-quick-access-btn btn-primary w-100 mt-2">
+                                <i class="fa fa-search" title="Rechercher"/> Rechercher
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+             <div class="col-lg-4">
+
+                <div class="geo-panel mb-3">
+                    <div class="geo-panel-header">
+                        <h5 class="m-0">Répartition par type</h5>
+                    </div>
+                    <div class="geo-panel-body">
+                        <field name="repartition_html" widget="html" nolabel="1"/>
+                    </div>
+                </div>
+
+                <div class="geo-panel">
+                    <div class="geo-panel-header">
+                        <h5 class="m-0">Activité récente</h5>
+                    </div>
+                    <div class="geo-panel-body">
+                        <field name="activite_html" widget="html" nolabel="1"/>
+                    </div>
+                </div>
+
+            </div>          
+
+        </div>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="action_geo_dashboard_server" model="ir.actions.server">
+        <field name="name">Tableau de bord</field>
+        <field name="model_id" ref="model_geo_dashboard"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_open_dashboard()</field>
+    </record>
+
+</odoo>

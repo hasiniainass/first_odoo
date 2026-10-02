@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<odoo>
+
+            <!--liste -->
+    <record id="view_geo_etablissement_tree" model="ir.ui.view">
+        <field name="name">geo.etablissement.tree</field>
+        <field name="model">geo.etablissement</field>
+        <field name="arch" type="xml">
+
+            <list string="Établissements">
+                <field name="nom_etab"/>
+                <field name="type_id"/>
+                <field name="categorie_id"/>
+                <field name="region"/>
+                <field name="district"/>
+                <field name="commune"/>
+                <field name="taux_reussite"/>
+                <field name="qualite"/>
+
+            </list>
+
+        </field>
+    </record>
+
+
+    <!--formulaire -->
+    <record id="view_geo_etablissement_form" model="ir.ui.view">
+        <field name="name">geo.etablissement.form</field>
+        <field name="model">geo.etablissement</field>
+        <field name="arch" type="xml">
+
+            <form string="Établissement">
+
+                <sheet>
+
+                <group>
+                    <field name="image" widget="image" class="oe_avatar"/>
+
+                        <group>
+                        <group string="Identité de l'établissement">
+                            <field name="nom_etab"/>
+                            <field name="type_id"/>
+                            <field name="categorie_id"/>
+                            <field name="qualite"/>
+                        </group>
+
+                        <group string="Localisation">
+                            <field name="adresse"/>
+                            <field name="region"/>
+                            <field name="district"/>
+                            <field name="arrondissement"/>
+                            <field name="commune"/>
+                            <field name="latitude_etab"/>
+                            <field name="longitude_etab"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Informations complémentaires">
+                            <field name="date_creation"/>
+                            <field name="taux_reussite"/>
+                        </group>
+                    </group>
+
+                    <group string="Description">
+                            <field name="description" nolabel="1"/>
+                    </group>
+                </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- etablissement search -->
+   <record id="view_geo_etablissement_search" model="ir.ui.view">
+        <field name="name">geo.etablissement.search</field>
+        <field name="model">geo.etablissement</field>
+        <field name="arch" type="xml">
+
+            <search string="Rechercher un établissement">
+                <field name="nom_etab"/>
+                <field name="region"/>
+                <field name="district"/>
+                <field name="commune"/>
+                <field name="type_id"/>
+                <field name="categorie_id"/>
+
+                <filter string="Excellente qualité" name="qual_excellente" domain="[('qualite', '=', 'excellente')]"/>
+                <filter string="Très bonne qualité" name="qual_tres_bonne" domain="[('qualite', '=', 'tres_bonne')]"/>
+
+                <group expand="0" string="Grouper par">
+                    <filter string="Type" name="group_type" context="{'group_by': 'type_id'}"/>
+                    <filter string="Catégorie" name="group_categorie" context="{'group_by': 'categorie_id'}"/>
+                    <filter string="Région" name="group_region" context="{'group_by': 'region'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <!-- Action -->
+    <record id="action_geo_etablissement" model="ir.actions.act_window">
+
+        <field name="name">Établissements</field>
+        <field name="res_model">geo.etablissement</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_geo_etablissement_tree"/>
+
+    </record>
+
+        <record id="view_geo_etablissement_graph" model="ir.ui.view">
+        <field name="name">geo.etablissement.graph</field>
+        <field name="model">geo.etablissement</field>
+        <field name="arch" type="xml">
+            <graph string="Établissements par type" type="bar">
+                <field name="type_id"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_geo_etablissement_pivot" model="ir.ui.view">
+        <field name="name">geo.etablissement.pivot</field>
+        <field name="model">geo.etablissement</field>
+        <field name="arch" type="xml">
+            <pivot string="Analyse des établissements">
+                <field name="type_id" type="row"/>
+                <field name="categorie_id" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_geo_etablissement_graph" model="ir.actions.act_window">
+        <field name="name">Statistiques Établissements</field>
+        <field name="res_model">geo.etablissement</field>
+        <field name="view_mode">graph,pivot,list</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="rule_geo_utilisateur_own_record" model="ir.rule">
+        <field name="name">Utilisateur : voir uniquement sa propre fiche</field>
+        <field name="model_id" ref="model_geo_utilisateur"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">0</field>
+    </record>
+
+    <record id="rule_geo_recherche_own_record" model="ir.rule">
+        <field name="name">Recherche : voir uniquement ses propres recherches</field>
+        <field name="model_id" ref="model_geo_recherche"/>
+        <field name="domain_force">[('utilisateur_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">0</field>
+    </record>
+
+    <record id="rule_geo_utilisateur_admin_all" model="ir.rule">
+        <field name="name">Utilisateur : admin voit tout</field>
+        <field name="model_id" ref="model_geo_utilisateur"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('base.group_system'))]"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">1</field>
+    </record>
+
+    <record id="rule_geo_recherche_admin_all" model="ir.rule">
+        <field name="name">Recherche : admin voit tout</field>
+        <field name="model_id" ref="model_geo_recherche"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('base.group_system'))]"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">1</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="view_geo_type_etablissement_tree" model="ir.ui.view">
+        <field name="name">geo.type.etablissement.tree</field>
+        <field name="model">geo.type.etablissement</field>
+
+        <field name="arch" type="xml">
+            <list string="Types d'établissements">
+                <field name="name"/>
+                <field name="description"/>
+                <field name="nombre_etablissements"/>
+                <field name="actif"/>
+            </list>
+        </field>
+    </record>
+
+
+    <record id="view_geo_type_etablissement_form" model="ir.ui.view">
+        <field name="name">geo.type.etablissement.form</field>
+        <field name="model">geo.type.etablissement</field>
+        <field name="arch" type="xml">
+
+            <form string="Type d'établissement">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="actif"/>
+                        <field name="nombre_etablissements" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Établissements liés">
+                            <field name="etablissement_ids" readonly="1">
+                                <list>
+                                    <field name="nom_etab"/>
+                                    <field name="region"/>
+                                    <field name="commune"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+     <record id="view_geo_type_etablissement_search" model="ir.ui.view">
+        <field name="name">geo.type.etablissement.search</field>
+        <field name="model">geo.type.etablissement</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher un type">
+                <field name="name"/>
+                <filter string="Actifs" name="actifs" domain="[('actif', '=', True)]"/>
+                <filter string="Inactifs" name="inactifs" domain="[('actif', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_geo_type_etablissement" model="ir.actions.act_window">
+        <field name="name">Types d'établissements</field>
+        <field name="res_model">geo.type.etablissement</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_geo_type_etablissement_search"/>
+    </record>
+
+</odoo>

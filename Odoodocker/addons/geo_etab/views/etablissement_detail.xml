@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="template_etablissement_detail" name="Détail établissement">
+        <t t-call="website.layout">
+            <div class="container py-5">
+
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+                <a href="/etablissements" class="btn btn-outline-secondary btn-sm mb-4">
+                    ← Retour à la recherche
+                </a>
+
+                <div class="row">
+
+                    <div class="col-md-5 mb-4">
+                        <img
+                            t-if="etablissement.image"
+                            t-att-src="'data:image/png;base64,%s' % etablissement.image.decode('utf-8')"
+                            class="img-fluid rounded shadow-sm"
+                            style="width: 100%%; object-fit: cover;"
+                        />
+                        <div
+                            t-if="not etablissement.image"
+                            class="bg-light rounded d-flex align-items-center justify-content-center"
+                            style="height: 300px;"
+                        >
+                            <span class="text-muted">Aucune photo</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7">
+
+                        <h1 class="mb-3">
+                            <t t-esc="etablissement.nom_etab"/>
+                        </h1>
+
+                        <div class="geo-detail-badge-row">
+                            <span t-if="etablissement.type_id" class="badge badge-geo-type me-2">
+                                <t t-esc="etablissement.type_id.name"/>
+                            </span>
+                            <span t-if="etablissement.categorie_id" class="badge badge-geo-categorie me-2">
+                                <t t-esc="etablissement.categorie_id.name"/>
+                            </span>
+                            <span t-if="etablissement.qualite" class="badge badge-geo-qualite">
+                                <t t-esc="dict(etablissement._fields['qualite'].selection).get(etablissement.qualite)"/>
+                            </span>
+                        </div>
+
+                        <table class="table table-borderless">
+
+                            <tr>
+                                <td class="text-muted" style="width: 200px;">Adresse</td>
+                                <td><t t-esc="etablissement.adresse"/></td>
+                            </tr>
+
+                            <tr>
+                                <td class="text-muted">Région</td>
+                                <td><t t-esc="etablissement.region"/></td>
+                            </tr>
+
+                            <tr>
+                                <td class="text-muted">District</td>
+                                <td><t t-esc="etablissement.district"/></td>
+                            </tr>
+
+                            <tr>
+                                <td class="text-muted">Commune</td>
+                                <td><t t-esc="etablissement.commune"/></td>
+                            </tr>
+
+                            <tr t-if="etablissement.date_creation">
+                                <td class="text-muted">Date de création</td>
+                                <td><t t-esc="etablissement.date_creation"/></td>
+                            </tr>
+
+                            <tr t-if="etablissement.taux_reussite">
+                                <td class="text-muted">Taux de réussite</td>
+                                <td>
+                                    <strong class="text-success">
+                                        <t t-esc="etablissement.taux_reussite"/>%
+                                    </strong>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div t-if="etablissement.description" class="mt-4">
+                            <h5>Description</h5>
+                            <p><t t-esc="etablissement.description"/></p>
+                        </div>
+
+                        <div t-if="etablissement.latitude_etab and etablissement.longitude_etab"
+                             id="carte-etablissement-detail"
+                             class="mt-4 rounded"
+                             style="height: 600px; width: 100%;"
+                             t-att-data-lat="etablissement.latitude_etab"
+                             t-att-data-lng="etablissement.longitude_etab"
+                             t-att-data-nom="etablissement.nom_etab">
+                        </div>
+
+                    
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <script src="/geo_etab/static/src/js/carte_detail.js"></script>
+        </t>
+    </template>
+
+</odoo>

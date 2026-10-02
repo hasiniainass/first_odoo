@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ici C la pages d'Acceuil -->
+    <template id="template_accueil" name="Accueil">
+        <t t-if="request.params.get('connexion') == 'reussie'">
+            <div id="geo-toast-bienvenue" class="geo-toast-success">
+                <i class="fa fa-check-circle me-2"/> Connexion réussie ! Bienvenue.
+            </div>
+         </t>
+        <t t-call="geo_etab.geo_layout">
+            <div class="geo-page-bg py-5 px-3 px-lg-5">
+                <div class="container-fluid p-0 text-center">
+
+                    <p class="geo-page-subtitle mb-4">
+                        BIENVENUE SUR GEO-ETAB
+                    </p>
+                    <h1 class="geo-page-title mb-3">Trouvez l'établissement qui vous convient</h1>
+                    <p class="geo-page-subtitle mb-4">
+                        Recherchez parmi les établissements de la région Analamanga selon vos critères.
+                    </p>
+
+                     <img src="/geo_etab/static/description/tana.jpg"  alt="Illustration"  class="geo-illustration mb-4"
+                             style="display: block; 
+                                    margin: 0 auto 1.5rem auto; 
+                                    max-width: 100%; 
+                                    height: 300px;"
+                    />
+
+                    <a href="/etablissements" class="btn geo-btn-search px-4 py-2">
+                        <i class="fa fa-search me-2"/>Commencer la recherche
+                    </a>
+
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- PAGE A PROPOS -->
+    <template id="template_a_propos" name="À propos">
+        <t t-call="geo_etab.geo_layout">
+            <div class="geo-page-bg py-5 px-3 px-lg-5">
+                <div class="container-fluid p-0" style="max-width: 800px; margin: 0 auto;">
+
+                    <h1 class="geo-page-title mb-4">À propos de Geo Etab</h1>
+
+                    <p>
+                        Geo Etab est une plateforme de recherche d'établissements scolaires
+                        en fonction de vos critères et de votre localisation, dans la région
+                        Analamanga à Madagascar.
+                    </p>
+
+                    <p>
+                        Notre objectif est de faciliter l'accès à l'information sur les
+                        établissements d'enseignement (universités, lycées, collèges, écoles
+                        primaires) : type, catégorie, qualité, taux de réussite et localisation.
+                    </p>
+
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- PAGE CONTACT -->
+    <template id="template_contact" name="Contact">
+        <t t-call="geo_etab.geo_layout">
+            <div class="geo-page-bg py-5 px-3 px-lg-5">
+                <div class="container-fluid p-0" style="max-width: 800px; margin: 0 auto;">
+
+                    <h1 class="geo-page-title mb-4">Contactez-nous</h1>
+
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="fa fa-envelope me-2"/>
+                            contact@geoetab.mg
+                        </li>
+                        <li class="mb-2">
+                            <i class="fa fa-phone me-2"/>
+                            numero MEN ****
+                        </li>
+                        <li class="mb-2">
+                            <i class="fa fa-map-marker me-2"/>
+                            Antananarivo, Madagascar
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

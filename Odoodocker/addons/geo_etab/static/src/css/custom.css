@@ -1,0 +1,82 @@
+body {
+    background-color: white !important;
+}
+
+.geo-inscription-card {
+    background-color: white !important;
+    border: none !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.geo-page-bg {
+    background-color: white !important;
+}
+
+h4 {
+    color: #060606;
+}
+
+/* css pour le formulaire inscription */
+.form-label {
+    font-size: 0.8rem;
+    color: #495057;
+    font-weight: bold;
+}
+
+.form-control {
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid white;
+}
+
+.input-group-text {
+    background-color: transparent;
+    border: none;
+}
+
+.btn-success {
+    background-color: #106645 !important;
+    border-color: #106645 !important;
+    border-radius: 15px !important;
+    padding: 10px 0 !important;
+}
+
+a {
+    color: #106645;
+}
+
+a:hover {
+    color: #106645;
+}
+
+/* Style pour le bouton "Se connecter" sur la page d'inscription */
+.geo-inscription-card .text-center a {
+    display: inline-block;
+    padding: 8px 20px;
+    margin-top: 10px;
+    border: 1px solid #106645;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.15s ease;
+}
+
+.geo-inscription-card .text-center a:hover {
+    background-color: #127450;
+    color: white;
+    text-decoration: none;
+}
+
+/* Style pour le bouton "S'inscrire" */
+.geo-inscription-card .btn-primary {
+    background-color: #106645 !important;
+    border-color: #106645 !important;
+    border-radius: 15px !important;
+    padding: 10px 0 !important;
+    font-weight: 600;
+}
+
+.geo-inscription-card .btn-primary:hover {
+    background-color: #0e5a3d !important;
+    border-color: #106645 !important;
+}

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="template_inscription" name="Inscription">
+        <t t-call="geo_etab.geo_layout">
+            <div class="container py-5 geo-page-bg">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card geo-inscription-card">
+                            <div class="card-body">
+
+                                <h2 class="text-center mb-4">Créer un Compte</h2>
+
+                                <t t-if="error">
+                                    <div class="alert alert-danger">
+                                        <t t-esc="error"/>
+                                    </div>
+                                </t>
+
+                                <form action="/inscription" method="post">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Nom </label>
+                                        <input type="text" name="nom" class="form-control" required="required" t-att-value="values.get('nom', '')"/>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Prénom </label>
+                                        <input type="text" name="prenom" class="form-control" required="required" t-att-value="values.get('prenom', '')"/>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Email </label>
+                                        <input type="email" name="email" class="form-control" required="required" t-att-value="values.get('email', '')"/>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Téléphone </label>
+                                        <input type="text" name="telephone" class="form-control" required="required" t-att-value="values.get('telephone', '')"/>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Date de naissance</label>
+                                        <input type="date" name="date_naissance" class="form-control" t-att-value="values.get('date_naissance', '')"/>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Mot de passe </label>
+                                        <input type="password" name="password" class="form-control" required="required"/>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label class="form-label">Confirmation du mot de passe </label>
+                                        <input type="password" name="confirmation" class="form-control" required="required"/>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
+                                </form>
+
+                                <p class="text-center mt-3">
+                                    Déjà inscrit ? <a href="/connexion">Se connecter</a>
+                                    <br/>
+                                    <!-- <a href="/accueil">← Retour à l' Accueil</a> -->
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+         <!-- Dans le MON COMPTE -->
+    <template id="template_mon_compte" name="Mon compte">
+        <t t-call="geo_etab.geo_layout">
+            <div class="geo-page-bg py-5 px-3 px-lg-5">
+                <div class="container-fluid p-0" style="max-width: 1100px; margin: 0 auto;">
+
+                    <h1 class="geo-page-title mb-5">Mon compte</h1>
+
+                    <div class="row g-9">
+
+                        <!-- Colonne gauche : sections -->
+                        <div class="col-md-8 geo-account-col-left">
+
+                            <!-- Carte Connexion &amp; Sécurité -->
+                            <a href="#" class="text-decoration-none">
+                                <div class="card geo-account-card mb-3">
+                                    <div class="card-body d-flex align-items-center">
+                                        <div class="geo-account-icon-wrapper me-3">
+                                            <i class="fa fa-signal geo-account-icon"/>
+                                        </div>
+                                        <div>
+                                            <h4 class="geo-account-card-title m-0">Connexion &amp; Sécurité</h4>
+                                            <p class="geo-account-card-desc m-0 mt-1">
+                                                Configurez vos paramètres de connexion
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+
+                        <!-- Colonne droite : infos utilisateur -->
+                        <div class="col-md-4 geo-account-col-right">
+
+                            <div class="geo-account-userinfo">
+
+                                <!-- Avatar + nom -->
+                                <div class="d-flex align-items-center mb-4">
+                                    <div class="geo-account-avatar me-3">
+                                        <t t-if="nom_affichage">
+                                            <t t-esc="nom_affichage[0:1].upper()"/>
+                                        </t>
+                                        <t t-else="">
+                                            <i class="fa fa-user"/>
+                                        </t>
+                                    </div>
+                                    <div>
+                                        <h5 class="geo-account-username m-0" t-esc="nom_affichage"/>
+                                    </div>
+                                </div>
+
+                                <!-- Coordonnées -->
+                                <ul class="list-unstyled geo-account-contactlist">
+
+                                    <li t-if="adresse_rue or adresse_ville or adresse_pays" class="mb-2">
+                                        <i class="fa fa-map-marker geo-account-contact-icon"/>
+                                        <span class="geo-account-contact-text">
+                                            <t t-if="adresse_rue"><span t-esc="adresse_rue"/><br/></t>
+                                            <t t-if="adresse_ville"><span t-esc="adresse_ville"/><t t-if="adresse_pays"> </t></t>
+                                            <t t-if="adresse_pays"><span t-esc="adresse_pays"/></t>
+                                        </span>
+                                    </li>
+
+                                    <li t-if="telephone" class="mb-2">
+                                        <i class="fa fa-phone geo-account-contact-icon"/>
+                                        <span class="geo-account-contact-text" t-esc="telephone"/>
+                                    </li>
+
+                                    <li t-if="email" class="mb-2">
+                                        <i class="fa fa-envelope geo-account-contact-icon"/>
+                                        <span class="geo-account-contact-text" t-esc="email"/>
+                                    </li>
+
+                                </ul>
+
+                                <!-- Lien Modifier les informations -->
+                                <div>
+                                    <a href="#" class="geo-account-editlink">
+                                        <i class="fa fa-pencil me-1"/>
+                                        Modifier les informations
+                                    </a>
+                                </div>
+
+                                 <!--boutton deconnect-->
+                                <div class="mt-4 mb-3">
+                                    <a href="/deconnexion" class="geo-btn-logout">
+                                        <i class="fa fa-sign-out me-2"/>
+                                        Se déconnecter
+                                    </a>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

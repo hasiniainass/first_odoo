@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <!-- vue liste -->
+
+    <record id="view_geo_utilisateur_tree" model="ir.ui.view">
+        <field name="name">geo.utilisateur.tree</field>
+        <field name="model">geo.utilisateur</field>
+        <field name="arch" type="xml">
+
+            <list string="Utilisateurs">
+                <field name="nom"/>
+                <field name="prenom"/>
+                <field name="email"/>
+                <field name="telephone"/>
+                <field name="date_naissance"/>
+                <field name="date_inscription"/>
+                <field name="actif"/>
+                <field name="nombre_recherches" readonly="1"/>
+            </list>
+
+        </field>
+
+    </record>
+
+
+    <!--  vue formulaire -->
+
+    <record id="view_geo_utilisateur_form" model="ir.ui.view">
+        <field name="name">geo.utilisateur.form</field>
+        <field name="model">geo.utilisateur</field>
+
+        <field name="arch" type="xml">
+
+            <form string="Utilisateur">
+                <sheet>
+                    <group>
+
+                        <group string="Identité">
+                            <field name="user_id"/>
+                            <field name="nom"/>
+                            <field name="prenom"/>
+                            <field name="email"/>
+                            <field name="telephone"/>
+                            <field name="date_naissance"/>
+                        </group>
+
+                        <group string="Compte">
+                            <field name="date_inscription"/>
+                            <field name="actif"/>
+                            <field name="nombre_recherches" readonly="1"/>
+                        </group>
+
+                    </group>
+
+                    <group string="Localisation (technique, optionnel)">
+                        <field name="latitude"/>
+                        <field name="longitude"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Historique des recherches">
+                            <field name="recherche_ids" readonly="1">
+                                <list>
+                                    <field name="type_id"/>
+                                    <field name="categorie_id"/>
+                                    <field name="commune"/>
+                                    <field name="nombre_resultats"/>
+                                    <field name="date_recherche"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- VUE RECHERCHE -->
+
+    <record id="view_geo_utilisateur_search" model="ir.ui.view">
+
+        <field name="name">geo.utilisateur.search</field>
+        <field name="model">geo.utilisateur</field>
+
+        <field name="arch" type="xml">
+
+            <search string="Rechercher un utilisateur">
+
+                <field name="nom"/>
+                <field name="prenom"/>
+                <field name="email"/>
+
+                <filter
+                    string="Actifs"
+                    name="actifs"
+                    domain="[('actif', '=', True)]"
+                />
+
+                <filter
+                    string="Inactifs"
+                    name="inactifs"
+                    domain="[('actif', '=', False)]"
+                />
+            </search>
+        </field>
+    </record>
+
+
+    <!-- ACTION -->
+
+    <record id="action_geo_utilisateur" model="ir.actions.act_window">
+        <field name="name">Utilisateurs</field>
+        <field name="res_model">geo.utilisateur</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_geo_utilisateur_search"/>
+
+    </record>
+
+</odoo>

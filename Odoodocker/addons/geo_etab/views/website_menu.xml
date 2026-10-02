@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record id="menu_website_recherche" model="website.menu">
+        <field name="name">Rechercher</field>
+        <field name="url">/etablissements</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence">40</field>
+    </record>
+
+    <record id="menu_website_inscription" model="website.menu">
+        <field name="name">S'inscrire</field>
+        <field name="url">/inscription</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence">41</field>
+    </record>
+
+    <record id="menu_website_connexion" model="website.menu">
+        <field name="name">Se connecter</field>
+        <field name="url">/connexion</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence">42</field>
+    </record>
+
+    <!-- header -->
+    <template id="geo_navbar" name="GEO ETAB - Navbar custom">
+        <header class="geo-navbar">
+            <div class="container-fluid px-4 px-lg-5">
+                <nav class="d-flex flex-wrap align-items-center justify-content-between py-2">
+
+                    <a href="/etablissements" 
+                       class="d-flex align-items-center text-decoration-none">
+
+                        <img src="/geo_etab/static/description/Logo-MEN.jpg" 
+                             alt="GEO ETAB" 
+                             class="me-3" 
+                             style="height: 44px; width: 44px; border-radius: 50%;"
+                        />
+
+                        <div>
+                            <div class="geo-logo-title">GEO-ETAB</div>
+                            <div class="geo-logo-subtitle">Trouvez l'établissement idéal</div>
+                        </div>
+                    </a>
+
+                    <ul class="geo-nav-links d-none d-md-flex align-items-center list-unstyled m-0">
+                        <li>
+                            <a href="/accueil" class="geo-nav-link">Accueil</a>
+                        </li>
+
+                        <li>
+                            <a href="/a-propos" class="geo-nav-link">À propos</a>
+                        </li>
+
+                        <li>
+                            <a href="/contact" class="geo-nav-link">Contact</a>
+                        </li>
+
+                        <li class="geo-nav-dropdown ms-2" t-if="user_id != website.user_id">
+                            <a href="/my" class="geo-nav-link d-inline-flex align-items-center">
+                                <i class="fa fa-user me-1"/>
+                                Mon compte
+                                <i class="fa fa-caret-down ms-1 small"/>
+                            </a>
+                        </li>
+                        <li t-if="user_id == website.user_id">
+                           <a href="/connexion" class="geo-nav-link">Connexion</a>
+                        </li>
+                    </ul>
+
+                    <button class="d-md-none btn btn-outline-light border-0" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#geoMobileMenu" aria-expanded="false">
+                        <i class="fa fa-bars"/>
+                    </button>
+                </nav>
+
+                <div class="collapse d-md-none pb-3" id="geoMobileMenu">
+
+                    <ul class="list-unstyled m-0">
+                        <li class="mb-2">
+                            <a href="/accueil" class="geo-nav-link">Accueil</a>
+                        </li>
+
+
+                        <li class="mb-2">
+                            <a href="/a-propos" class="geo-nav-link">À propos</a>
+                        </li>
+
+                        <li class="mb-2">
+                        <a href="/contact" class="geo-nav-link">Contact</a>
+                        </li>
+
+                        <li class="mb-2" t-if="user_id != website.user_id">
+                            <a href="/my" class="geo-nav-link">Mon compte</a>
+                        </li>
+                        <li class="mb-2" t-if="user_id == website.user_id">
+                            <a href="/connexion" class="geo-nav-link">Connexion</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </header>
+    </template>
+
+
+                  <!-- footer-->
+    <template id="geo_footer" name="GEO ETAB - Footer custom">
+        <footer class="geo-footer-custom">
+            <div class="container-fluid px-4 px-lg-5 py-5">
+                <div class="row">
+                    <div class="col-md-4 mb-4 mb-md-0">
+                        <h6 class="geo-footer-title mb-3">À propos</h6>
+                        <p class="geo-footer-text small m-0">
+                            GEO ETAB est une plateforme de recherche d'établissements
+                            scolaires en fonction de vos critères et de votre localisation.
+                        </p>
+                        <div class="geo-footer-social mt-3">
+                            <a href="#" class="geo-social-link" title="Facebook" aria-label="Facebook"><i class="fa fa-facebook"/></a>
+                            <a href="#" class="geo-social-link" title="Twitter" aria-label="Twitter"><i class="fa fa-twitter"/></a>
+                            <a href="#" class="geo-social-link" title="Instagram" aria-label="Instagram"><i class="fa fa-instagram"/></a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-4 mb-md-0">
+                        <h6 class="geo-footer-title mb-3">Liens utiles</h6>
+                        <ul class="list-unstyled m-0 geo-footer-links">
+                            <li><a href="/accueil">Accueil</a></li>
+                            <li><a href="a-propos">À propos</a></li>
+                            <li><a href="contact">Contact</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-4">
+                        <h6 class="geo-footer-title mb-3">Contact</h6>
+                        <ul class="list-unstyled m-0 geo-footer-contact">
+                            <li><i class="fa fa-envelope me-2"/> contact@geoetab.mg</li>
+                            <li><i class="fa fa-phone me-2"/> +261 ********</li>
+                            <li><i class="fa fa-map-marker me-2"/> Antananarivo, Madagascar</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </template>
+
+    <!-- ============ LAYOUT GLOBAL (navbar + contenu + footer) ============ -->
+    <template id="geo_layout" name="GEO ETAB - Layout custom">
+        <t t-call="website.layout">
+            <t t-set="extra_head_info"></t>
+            <div class="geo-page-wrapper">
+                <t t-call="geo_etab.geo_navbar"/>
+                <main class="geo-main-content">
+                    <t t-raw="0"/>
+                </main>
+                <t t-call="geo_etab.geo_footer"/>
+            </div>
+        </t>
+    </template>
+
+</odoo>

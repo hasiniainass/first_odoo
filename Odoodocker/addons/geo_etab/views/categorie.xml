@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+<!-- liste -->
+    <record id="view_geo_categorie_tree" model="ir.ui.view">
+        <field name="name">geo.categorie.tree</field>
+        <field name="model">geo.categorie</field>
+        <field name="arch" type="xml">
+            <list string="Catégories">
+
+                <field name="name"/>
+                <field name="description"/>
+                <field name="actif"/>
+                <field name="nombre_etablissements"/>
+            </list>
+        </field>
+    </record>
+
+<!-- formulaire -->
+    <record id="view_geo_categorie_form" model="ir.ui.view">
+        <field name="name">geo.categorie.form</field>
+        <field name="model">geo.categorie</field>
+        <field name="arch" type="xml">
+
+            <form string="Catégorie">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="actif"/>
+                        <field name="nombre_etablissements" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Établissements liés">
+                            <field name="etablissement_ids" readonly="1">
+                                <list>
+                                    <field name="nom_etab"/>
+                                    <field name="region"/>
+                                    <field name="commune"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+
+        </field>
+
+    </record>
+
+<!-- recherche -->
+     <record id="view_geo_categorie_search" model="ir.ui.view">
+        <field name="name">geo.categorie.search</field>
+        <field name="model">geo.categorie</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher une catégorie">
+                <field name="name"/>
+                <filter string="Actifs" name="actifs" domain="[('actif', '=', True)]"/>
+                <filter string="Inactifs" name="inactifs" domain="[('actif', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+<!-- action -->
+    <record id="action_geo_categorie" model="ir.actions.act_window">
+        <field name="name">Catégories</field>
+        <field name="res_model">geo.categorie</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_geo_categorie_search"/>
+    </record>
+
+</odoo>
